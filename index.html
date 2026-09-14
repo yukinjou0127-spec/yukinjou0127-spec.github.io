@@ -36,7 +36,8 @@ a{color:var(--accent)}
 img{max-width:100%}
 .wrap{max-width:1040px;margin:0 auto;padding-inline:20px}
 section{padding-block:88px;scroll-margin-top:64px}
-h1,h2,h3,.lead,.desc,.problem p,.stat .cap{word-break:auto-phrase}
+h1,h2,h3,.lead,.desc,.role,.problem p,.stat .cap,.case dd,.service p,.step p{word-break:auto-phrase}
+.lead,.desc{text-wrap:pretty}
 section.soft{background:var(--soft)}
 .eyebrow{
   font-family:Inter,sans-serif;font-weight:800;font-size:13px;letter-spacing:.14em;
@@ -72,7 +73,7 @@ h2,.case h3{text-wrap:balance}
 .hero p.desc{color:var(--sub);max-width:680px;margin:0 0 36px;font-size:17px}
 .cta-row{display:flex;flex-wrap:wrap;gap:14px}
 .stats{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);
   border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:56px;
 }
 .stat{background:#fff;padding:26px 20px}
@@ -156,7 +157,7 @@ footer{background:var(--ink);color:#8c99a6;text-align:center;font-size:13px;padd
 
 @media (max-width:860px){
   nav{display:none}
-  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .problems,.services,.voices,.two{grid-template-columns:1fr}
   .case dl{grid-template-columns:1fr;gap:14px}
   section{padding-block:64px}
