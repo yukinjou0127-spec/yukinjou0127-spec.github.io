@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>お問い合わせ｜金城ゆうき</title>
+<meta name="description" content="記事制作、リライト、AIを使った記事制作フローの構築などのご相談はこちらからお送りください。">
+<meta name="theme-color" content="#16202c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%2316202c%22/%3E%3Ctext x=%2232%22 y=%2243%22 font-size=%2230%22 font-family=%22sans-serif%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%23ffffff%22%3EYK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html">金城ゆうき<span>コンテンツディレクター・ライター</span></a>
+    <nav>
+      <a href="index.html#services">提供できること</a>
+      <a href="index.html#flow">AI記事制作フロー</a>
+      <a class="m" href="works.html">制作実績</a>
+      <a href="index.html#price">料金</a>
+    </nav>
+    <a class="btn small" href="contact.html" aria-current="page">相談する</a>
+  </div>
+</header>
+
+<main>
+<section class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Contact</p>
+    <h1>お問い合わせ</h1>
+    <p class="lead">記事制作やリライト、AIを使った記事制作フローの構築など、お気軽にご相談ください。内容を確認し、ご入力いただいたメールアドレスにご返信します。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <form id="contact-form" class="form" novalidate>
+      <div class="field">
+        <label for="name">お名前（会社名）<span class="req">必須</span></label>
+        <input id="name" name="name" type="text" maxlength="100" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="email">返信先メールアドレス<span class="req">必須</span></label>
+        <input id="email" name="email" type="email" maxlength="200" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="title">タイトル<span class="req">必須</span></label>
+        <div class="presets" aria-label="タイトルの例">
+          <button type="button" data-title="記事制作のご相談">記事制作</button>
+          <button type="button" data-title="リライト・記事改善のご相談">リライト・記事改善</button>
+          <button type="button" data-title="AIを使った記事制作フロー構築のご相談">AI記事制作フロー構築</button>
+          <button type="button" data-title="ディレクションのご相談">ディレクション</button>
+          <button type="button" data-title="取材記事のご相談">取材記事</button>
+        </div>
+        <input id="title" name="title" type="text" maxlength="150" required>
+        <p class="hint">上のボタンを押すとタイトルが入ります。自由に書き換えてください。</p>
+      </div>
+      <div class="field">
+        <label for="message">お問い合わせ内容<span class="req">必須</span></label>
+        <textarea id="message" name="message" maxlength="5000" required placeholder="例）BtoB向けオウンドメディアで、月4本ほどの記事制作をお願いしたいです。KW選定からお任せできるか、概算の料金も知りたいです。"></textarea>
+        <p class="hint">記事の本数、ご予算、希望の時期などが分かると、具体的にご返信できます。</p>
+      </div>
+      <div class="hp" aria-hidden="true">
+        <label for="website">このフィールドは空のままにしてください</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <div>
+        <button class="btn" type="submit" id="submit-btn">送信する</button>
+      </div>
+      <div id="form-status" class="form-status" role="status" hidden></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="plain">
+  <div class="wrap">© 金城ゆうき</div>
+</footer>
+
+<script>
+(function () {
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbw95OdK5DkTrgBh8IXIM841DwUgOK4X_4Ttu30Ib1am2AM9lAFkL0CaRpGrvwc84-Mb0w/exec";
+  var form = document.getElementById('contact-form');
+  var statusBox = document.getElementById('form-status');
+  var button = document.getElementById('submit-btn');
+
+  document.querySelectorAll('.presets button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = document.getElementById('title');
+      t.value = b.dataset.title;
+      t.focus();
+    });
+  });
+
+  function show(type, text) {
+    statusBox.className = 'form-status ' + type;
+    statusBox.textContent = text;
+    statusBox.hidden = false;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    var name = String(data.get('name') || '').trim();
+    var email = String(data.get('email') || '').trim();
+    var title = String(data.get('title') || '').trim();
+    var message = String(data.get('message') || '').trim();
+
+    if (!name || !email || !title || !message) {
+      show('err', '未入力の項目があります。すべての必須項目をご入力ください。');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      show('err', 'メールアドレスの形式をご確認ください。');
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = '送信中…';
+    var body = new URLSearchParams();
+    ['name', 'email', 'title', 'message', 'website'].forEach(function (k) { body.append(k, String(data.get(k) || '')); });
+
+    fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: body })
+      .then(function () {
+        form.reset();
+        show('ok', 'お問い合わせを送信しました。内容を確認のうえ、ご入力いただいたメールアドレスにご返信します。');
+      })
+      .catch(function () {
+        show('err', '送信できませんでした。時間をおいて、もう一度お試しください。');
+      })
+      .finally(function () {
+        button.disabled = false;
+        button.textContent = '送信する';
+      });
+  });
+})();
+</script>
+</body>
+</html>
