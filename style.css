@@ -296,3 +296,25 @@ section.soft .tool-chips li{background:#fff}
 .effort p{margin:0;color:var(--sub);font-size:14px;line-height:1.8}
 .ps{margin:26px auto 0;max-width:620px;color:#c9d2db;font-size:14px}
 @media (max-width:860px){.effort-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+/* --- 2026-09-16 修正コメント対応 --- */
+/* お悩みカードの不自然な改行を、文節で折り返すように */
+.problem p,.voice blockquote,.stat .label{word-break:auto-phrase}
+/* 数字枠に文字だけを入れるとき */
+.stat .num.txt{font-size:clamp(22px,2.6vw,28px)}
+/* 写真の枠（あとで img に差し替える） */
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:48px;align-items:start}
+.hero-copy{min-width:0}
+.photo-frame{margin:0;background:#f2f5f4;border:1px dashed #b9c6c2;border-radius:var(--radius);
+  display:flex;align-items:center;justify-content:center;text-align:center;color:#7c8c87;
+  font-size:14px;font-weight:700;line-height:1.7}
+.photo-frame small{font-weight:400;font-size:12px}
+.photo-frame img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius);display:block}
+.hero-photo{aspect-ratio:3/4}
+.profile-photo{width:140px;aspect-ratio:1/1;border-radius:50%;margin-bottom:18px}
+.profile-photo img{border-radius:50%}
+@media(max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:28px}
+  .hero-photo{max-width:220px;margin-inline:auto}
+}
