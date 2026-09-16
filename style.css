@@ -318,3 +318,21 @@ section.soft .tool-chips li{background:#fff}
   .hero-grid{grid-template-columns:1fr;gap:28px}
   .hero-photo{max-width:220px;margin-inline:auto}
 }
+
+/* --- 制作実績のアイキャッチ（2026-09-16） --- */
+.article-list a{align-items:center}
+.article-list .t{flex:1;min-width:0}
+.thumb{flex:none;width:112px;height:59px;object-fit:cover;border-radius:6px;
+  background:#eef1f4;display:block}
+.thumb-none{flex:none;width:112px;height:59px;border-radius:6px;
+  background:repeating-linear-gradient(135deg,#eef1f4 0 8px,#e7ebef 8px 16px)}
+.work-card .card-img{width:calc(100% + 44px);margin:-22px -22px 16px;height:auto;aspect-ratio:640/336;
+  object-fit:cover;border-radius:var(--radius) var(--radius) 0 0;background:#eef1f4;display:block}
+@media(max-width:700px){
+  /* 左にサムネ、右にタイトル、その下にラベル */
+  .article-list a{display:grid;grid-template-columns:84px minmax(0,1fr);
+    gap:6px 10px;align-items:start;padding:10px 12px}
+  .thumb,.thumb-none{width:84px;height:44px;grid-row:span 2;align-self:center}
+  .article-list .t{min-width:0}
+  .kind{justify-self:start}
+}
