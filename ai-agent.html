@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 下書き（未公開）。既存ページからのリンクは張っていない。公開するときは下の noindex を外す -->
+<!-- 本文の元原稿：_LP2本の本文_ChatGPT原稿_20261012.md の「LP②」 -->
+<meta name="robots" content="noindex">
+<title>記事制作AIエージェントの構築・導入支援｜金城ゆうき</title>
+<meta name="description" content="自社の記事制作ルールに合わせたAIエージェントを作り、社内で使える形で引き継ぎます。">
+<meta name="theme-color" content="#16202c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%2316202c%22/%3E%3Ctext x=%2232%22 y=%2243%22 font-size=%2230%22 font-family=%22sans-serif%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%23ffffff%22%3EYK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* このページだけで使う最小限の追加（style.css は変更していない） */
+.lp-hero h1{font-size:clamp(28px,4.2vw,46px)}
+.lp-hero p.desc{margin-bottom:14px}
+.lp-hero .cta-row{margin-top:32px}
+.body-text{max-width:760px}
+.body-text p{margin:0 0 18px}
+.body-text p:last-child{margin-bottom:0}
+.before{margin:0 0 14px;max-width:760px}
+.before.last{margin-bottom:32px}
+.after{margin:28px 0 0;max-width:760px}
+.after + .after{margin-top:14px}
+.sample-frame{margin-top:28px;border:2px dashed #b9c6c2;border-radius:var(--radius);background:#f2f5f4;color:#7c8c87;font-weight:700;text-align:center;padding:56px 20px}
+.cta-row.gap{margin-top:28px}
+/* 見本（説明用サンプル） */
+.smp{margin-top:36px}
+.smp-title{font-size:18px;margin:0 0 4px}
+.smp-note{font-size:12px;color:var(--sub);margin:0 0 12px}
+.term{background:#16202c;color:#dbe3ea;border-radius:var(--radius);overflow:hidden;font-size:14px;line-height:1.7}
+.term-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#0f1720;color:#8c99a6;font-size:12px}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:#3a4756;display:inline-block}
+.term-bar span{margin-left:8px;overflow-wrap:anywhere}
+.term-body{list-style:none;margin:0;padding:8px 18px 16px}
+.term-body li{display:grid;grid-template-columns:86px minmax(0,1fr);gap:4px 12px;padding:10px 0;border-bottom:1px solid #243140;overflow-wrap:anywhere}
+.term-body li:last-child{border-bottom:0}
+.st{font-size:12px;font-weight:700;border-radius:6px;text-align:center;align-self:start;line-height:1.9;margin-top:2px;background:#243140;color:#dbe3ea}
+.st.done{background:#0e7c6b;color:#fff}
+.st.wait{background:#e8b84a;color:#16202c}
+.term-body b{color:#fff}
+.term-body small{display:block;font-size:13px;color:#a9b6c2}
+.smp-table{font-size:14px}
+.smp-table th,.smp-table td{white-space:normal;font-weight:400;vertical-align:top;line-height:1.7;padding:10px 10px;overflow-wrap:anywhere}
+.smp-table thead th{background:var(--soft);font-weight:700;color:var(--ink);font-size:13px}
+.smp-table .who{display:block;font-size:12px;font-weight:700;color:var(--accent)}
+.win{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 2px 10px rgba(22,32,44,.06);overflow:hidden}
+.win-bar{padding:12px 20px;background:var(--soft);border-bottom:1px solid var(--line);font-weight:700;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between}
+.win-bar .st{padding:0 12px}
+.win-body{padding:20px 24px;overflow-wrap:anywhere}
+.win-body p{margin:0 0 10px}
+.win-body .lbl{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin:16px 0 4px}
+.win-body .lbl:first-child{margin-top:0}
+.win-body ol{margin:0;padding-left:1.4em}
+.win-body ol li{padding:5px 0;border-bottom:1px solid var(--line)}
+.fake-input{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--sub);font-size:14px;min-height:72px;background:#fff}
+.fake-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.fake-btn{display:inline-block;border-radius:999px;padding:9px 20px;font-weight:700;font-size:14px;background:var(--accent);color:#fff}
+.fake-btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+@media (max-width:700px){
+  .term-body{padding:6px 14px 12px}
+  .term-body li{grid-template-columns:74px minmax(0,1fr)}
+  .win-body{padding:16px}
+  .smp-table{font-size:13px}
+  .smp-table th,.smp-table td{padding:8px 6px}
+}
+.fit h3{margin:0 0 12px;font-size:18px}
+.fit ul{margin:0;padding-left:1.2em}
+.fit li{margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html">金城ゆうき<span>コンテンツディレクター・ライター</span></a>
+    <nav>
+      <a href="content-seo.html">コンテンツSEO</a>
+      <a href="ai-efficiency.html">AI業務効率化</a>
+      <a href="ai-agent.html" aria-current="page">AIエージェント</a>
+      <a href="ai-writing.html">記事制作代行</a>
+      <a class="m" href="works.html">制作実績</a>
+      <a href="index.html#price">料金</a>
+    </nav>
+    <a class="btn small" href="contact.html">相談する</a>
+  </div>
+</header>
+
+<main>
+<section class="lp-hero">
+  <div class="wrap">
+    <h1>記事制作AIエージェントの<br><span class="ib">構築・導入支援</span></h1>
+    <p class="desc">自社の記事制作ルールに合わせたAIエージェントを作り、社内で使える形で引き継ぎます。</p>
+    <p class="desc">AIエージェントとは、決められた役割に沿って作業を進めるAIの仕組みです。</p>
+    <p class="desc">記事の調査・構成作成・執筆・チェックなどを、役割ごとのAIが分担します。</p>
+    <p class="desc">企業の商材や制作ルールに合わせて仕組みを構築し、設定一式と操作の手順書をお渡しします。</p>
+    <p class="desc">納品後は、社内のご担当者様がAIエージェントを動かして記事制作を進められるようにするサービスです。</p>
+    <div class="cta-row">
+      <a class="btn" href="contact.html">AIエージェントの構築を相談する</a>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>AIを導入したものの、こんな状態になっていませんか？</h2>
+    <div class="problems">
+      <div class="problem"><p>AIに記事を書かせても、毎回文章の品質が変わってしまう。</p></div>
+      <div class="problem"><p>自社の商材情報や執筆ルールを、何度も説明している。</p></div>
+      <div class="problem"><p>AIを導入したが、一部の担当者しか使っていない。</p></div>
+    </div>
+    <p class="after">AIに記事を書いてもらうだけでは、安定して記事を制作するのは難しい場合があります。</p>
+    <p class="after">必要なのは、どの作業をAIに任せ、どこを人が確認するかを決めることです。</p>
+    <p class="after">その流れを整理し、繰り返し使える仕組みを作ります。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>サービス内容｜記事制作の作業をAIが分担する仕組みを作ります</h2>
+    <p class="before">企業の記事制作方法に合わせて、AIエージェントを構築します。</p>
+    <p class="before last">主に対応するのは、次の3つです。</p>
+    <div class="pillars three">
+      <div class="pillar"><h3>制作フローの整理</h3><p>現在の記事制作の流れを確認し、AIに任せる作業と人が判断する作業を分けます。</p></div>
+      <div class="pillar"><h3>AIエージェントの構築</h3><p>商材情報や制作ルールを踏まえ、調査・執筆・チェックなどを行うAIを設定します。</p></div>
+      <div class="pillar"><h3>操作方法の引き継ぎ</h3><p>社内で使えるように設定一式と手順書をお渡しします。</p></div>
+    </div>
+    <p class="after">単に記事を自動生成するのではなく、自社の制作手順に沿って作業を進められる仕組みを目指します。</p>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>AIエージェントに任せられる業務</h2>
+    <p class="before last">記事制作の各工程で、AIに次のような作業を任せられます。</p>
+    <div class="menu">
+      <div class="menu-item"><h3>キーワード・読者の調査</h3><p>検索する人の疑問や記事に必要な情報を整理します。</p></div>
+      <div class="menu-item"><h3>記事構成の作成</h3><p>調査した情報をもとに、見出しや記事の流れを提案します。</p></div>
+      <div class="menu-item"><h3>本文の下書き</h3><p>決められた構成や執筆ルールに沿って文章を作成します。</p></div>
+      <div class="menu-item"><h3>事実確認の支援</h3><p>数字や引用の根拠を探し、人が元の情報を確認できるようにします。</p></div>
+      <div class="menu-item"><h3>文章のチェック</h3><p>説明不足や読みにくい表現を指摘します。</p></div>
+      <div class="menu-item"><h3>読者視点のチェック</h3><p>初めて読む人にも内容が伝わるかを確認します。</p></div>
+    </div>
+    <p class="after">すべての判断をAIに任せるわけではありません。</p>
+    <p class="after">記事の方向性や情報の正しさ、最終的な公開判断は人が行う前提で設計します。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>構築の進め方｜相談から引き継ぎまで</h2>
+    <ol class="process">
+      <li><span class="no">1</span><div><h3>ご相談・ヒアリング</h3><p>現在の記事制作方法や使用しているツール、商材情報、課題を伺います。</p></div></li>
+      <li><span class="no">2</span><div><h3>制作フローの整理</h3><p>各工程で行っている作業を整理し、AIに任せる範囲と人が確認する範囲を決めます。</p></div></li>
+      <li><span class="no">3</span><div><h3>AIエージェントの構築</h3><p>企業の制作ルールに合わせて、役割ごとのAIや作業の流れを設定します。</p></div></li>
+      <li><span class="no">4</span><div><h3>実際の記事で動作を確認</h3><p>記事制作の流れに沿ってAIエージェントを動かし、出力内容や修正が必要な箇所を確認します。</p></div></li>
+      <li><span class="no">5</span><div><h3>納品・操作方法の引き継ぎ</h3><p>AIエージェントの設定一式と操作の手順書をお渡しします。社内で使うための操作方法も説明します。</p></div></li>
+    </ol>
+    <p class="after">構築期間や各工程の分担、確認方法は、ご相談のうえ決めます。</p>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>納品後に自社で使えるもの</h2>
+    <p class="before">構築したAIエージェントは、納品後に自社で利用することを前提としています。</p>
+    <p class="before last">お渡しするものは次の2つです。</p>
+    <div class="reasons">
+      <div class="reason"><h3>AIエージェントの設定一式</h3><p>記事制作の各工程でAIを動かすための設定をお渡しします。</p></div>
+      <div class="reason"><h3>操作の手順書</h3><p>AIエージェントの使い方や、記事制作を進める手順をまとめます。</p></div>
+    </div>
+    <p class="after">納品物の詳しい範囲や利用環境、納品後の修正・サポート範囲は、ご相談のうえ決めます。</p>
+    <p class="after">なお、AIによる出力には誤りが含まれる場合があります。納品後も、人による確認が必要です。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>実際に動いているAIエージェントの例</h2>
+    <p class="before">金城自身が日々の記事制作で使用しているAIエージェントを紹介します。</p>
+    <p class="before last">記事制作では、複数のAIに異なる役割を持たせています。</p>
+    <div class="reasons">
+      <div class="reason"><h3>調査するAI</h3><p>記事に必要な情報を収集・整理します。</p></div>
+      <div class="reason"><h3>執筆するAI</h3><p>構成や執筆ルールに沿って下書きを作ります。</p></div>
+      <div class="reason"><h3>厳しくチェックするAI</h3><p>内容の不足や論理の飛躍を指摘します。</p></div>
+      <div class="reason"><h3>初めて読む人の立場で確認するAI</h3><p>専門知識がなくても理解できるかを確認します。</p></div>
+    </div>
+    <!-- サンプル：後で実物に差し替え -->
+    <div class="smp">
+      <h3 class="smp-title">動作の流れ</h3>
+      <p class="smp-note">※説明用のサンプルです。実際の案件の原稿・画面ではありません</p>
+      <div class="term">
+        <div class="term-bar"><i></i><i></i><i></i><span>記事制作の進行状況｜テーマ：勤怠管理システムの選び方</span></div>
+        <ul class="term-body">
+          <li><span class="st done">完了</span><div><b>調査するAI：完了（調べた項目3つ）</b><small>検索する人の疑問／上位記事の論点／読者の悩み</small></div></li>
+          <li><span class="st wait">確認待ち</span><div><b>構成：担当者の確認待ち</b><small>OKが出るまで、執筆には進みません</small></div></li>
+          <li><span class="st done">完了</span><div><b>構成：担当者がOK</b><small>修正の希望を反映して確定</small></div></li>
+          <li><span class="st done">完了</span><div><b>執筆するAI：下書き作成</b><small>確定した構成と執筆ルールに沿って作成</small></div></li>
+          <li><span class="st done">完了</span><div><b>厳しくチェックするAI：指摘3件</b><small>出典の不足／論理の飛躍／誰に向けた記事かが不明</small></div></li>
+          <li><span class="st done">完了</span><div><b>初めて読む人の立場で確認するAI：つまずき2か所</b><small>説明のない用語／話のつながりが分からない段落</small></div></li>
+          <li><span class="st">作業中</span><div><b>担当者：指摘の確認と原稿の修正</b><small>指摘を採用するかどうかは、人が判断します</small></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- サンプル：後で実物に差し替え -->
+    <div class="smp">
+      <h3 class="smp-title">チェック結果</h3>
+      <p class="smp-note">※説明用のサンプルです。実際の案件の原稿・画面ではありません</p>
+      <div class="table-wrap">
+        <table class="smp-table">
+          <thead>
+            <tr><th>どこで</th><th>指摘の内容</th><th>対応</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>「料金の見方」の段落</td><td><span class="who">厳しくチェックするAI</span>金額の出典が見つからない</td><td>出典を確認できるまで載せない</td></tr>
+            <tr><td>「導入までの進め方」の段落</td><td><span class="who">厳しくチェックするAI</span>手順の順番が前後していて、話が飛んでいる</td><td>手順の順番を入れ替える</td></tr>
+            <tr><td>リード文</td><td><span class="who">厳しくチェックするAI</span>誰に向けた記事かが分からない</td><td>対象の読者を最初の文に書く</td></tr>
+            <tr><td>「打刻の方法」の段落</td><td><span class="who">初めて読む人の立場で確認するAI</span>「打刻」の説明がなく、読む手が止まる</td><td>最初に出てくる箇所に説明を足す</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- サンプル：後で実物に差し替え -->
+    <div class="smp">
+      <h3 class="smp-title">人が確認する場面（構成の確認）</h3>
+      <p class="smp-note">※説明用のサンプルです。実際の案件の原稿・画面ではありません</p>
+      <div class="win">
+        <div class="win-bar"><span>構成の確認</span><span class="st wait">担当者の確認待ち</span></div>
+        <div class="win-body">
+          <p class="lbl">記事のテーマ</p>
+          <p>勤怠管理システムの選び方（中小企業の総務担当者向け）</p>
+          <p class="lbl">見出しの一覧</p>
+          <ol>
+            <li>勤怠管理システムを選ぶ前に決めておくこと</li>
+            <li>勤怠管理システムを比べるときのポイント</li>
+            <li>料金の見方</li>
+            <li>導入までの進め方</li>
+            <li>よくある質問</li>
+          </ol>
+          <p class="lbl">修正してほしい点（あれば）</p>
+          <div class="fake-input">例：「料金の見方」の中で、無料で試せる期間の確かめ方にも触れてほしい</div>
+          <div class="fake-btns">
+            <span class="fake-btn">OK（執筆に進む）</span>
+            <span class="fake-btn ghost">修正を伝える</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="after">AIエージェントがどのような順番で動き、どんな文章や指摘を出すのかを紹介します。</p>
+    <p class="after">あわせて、AIの出力を人がどのように確認・修正するかも示します。</p>
+    <p class="note">※掲載するのは金城自身の業務で使用している例です。導入企業での成果を示すものではありません。</p>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>向いている企業・向いていない企業</h2>
+    <div class="pillars">
+      <div class="pillar fit">
+        <h3>このサービスが向いている企業</h3>
+        <ul>
+          <li>オウンドメディアの記事を継続的に制作している。</li>
+          <li>社内に記事を確認・編集できる担当者がいる。</li>
+          <li>AIを活用して、記事制作の流れを整理したい。</li>
+          <li>外注だけでなく、自社でも記事を制作できる仕組みを持ちたい。</li>
+        </ul>
+      </div>
+      <div class="pillar fit">
+        <h3>このサービスが向いていない企業</h3>
+        <ul>
+          <li>記事制作の作業をすべて外部に任せたい。</li>
+          <li>AIを操作する担当者を社内に用意できない。</li>
+          <li>人による確認をなくし、記事を完全自動で公開したい。</li>
+        </ul>
+      </div>
+    </div>
+    <p class="after">AIエージェントは、人の判断をなくすための仕組みではありません。</p>
+    <p class="after">自社で記事を制作する際の作業を分担し、担当者が判断に集中しやすい環境を作るものです。</p>
+    <p class="after">記事制作そのものを外注したい場合は、別サービスの「AIを活用したSEO・LLMO記事制作代行」をご案内しています。</p>
+    <div class="cta-row gap">
+      <a class="btn ghost" href="ai-writing.html">記事制作代行について見る</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>開発・構築を担当する金城ゆうきについて</h2>
+    <div class="body-text">
+      <p>沖縄在住のWebライター・コンテンツディレクターです。</p>
+      <p>これまで累計700記事以上を執筆し、検索上位に表示された記事は500記事以上あります。</p>
+      <p>また、10名規模のライターチームで月20本の記事制作をディレクションしてきました。</p>
+      <p>現在は、自分の記事制作業務に合わせたAIエージェントを構築し、日々活用しています。</p>
+      <p>記事を作る立場と、記事の品質を確認する立場の両方を経験してきました。</p>
+      <p>その経験をもとに、実際の記事制作で使うことを考えた仕組みづくりを行います。</p>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>料金・構築期間</h2>
+    <div class="body-text">
+      <p><b>料金：要相談</b></p>
+      <p>企業の記事制作フローや構築する機能、対応範囲を伺い、お見積もりします。</p>
+      <p>構築期間や納品後の修正・サポート範囲についても、ご相談のうえ決めます。</p>
+      <p>まずは、現在の記事制作でどのような作業に時間がかかっているのかをお聞かせください。</p>
+    </div>
+    <div class="cta-row gap">
+      <a class="btn" href="contact.html">AIエージェントの構築を相談する</a>
+    </div>
+  </div>
+</section>
+
+<!-- 「Q.」は style.css が質問の前に自動で表示する -->
+<section>
+  <div class="wrap">
+    <h2>よくある質問</h2>
+    <details class="faq">
+      <summary>AIに詳しくなくても使えますか？</summary>
+      <p>AIに詳しくないご担当者様にも使い方が分かるよう、操作の手順書をお渡しします。必要な操作や利用環境については、構築前にご説明します。</p>
+    </details>
+    <details class="faq">
+      <summary>既存の制作ルールやマニュアルを反映できますか？</summary>
+      <p>既存の制作ルールや商材情報を伺い、AIエージェントの設定に反映することを想定しています。反映できる内容や方法は、資料や利用環境を確認したうえでご案内します。</p>
+    </details>
+    <details class="faq">
+      <summary>納品後、自社で変更できますか？サポートも依頼できますか？</summary>
+      <p>自社で使うことを前提に、AIエージェントの設定一式と操作の手順書をお渡しします。納品後に変更できる範囲や、追加修正・サポートの内容は、ご相談のうえ決めます。</p>
+    </details>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="wrap">
+    <h2>自社の記事制作を、どこまでAI化できるか相談しませんか？</h2>
+    <p style="margin-bottom:18px">AIを記事制作に取り入れたいものの、何から始めればよいか分からない。</p>
+    <p style="margin-bottom:18px">すでにAIを使っているけれど、社内で繰り返し使える仕組みになっていない。</p>
+    <p style="margin-bottom:18px">そのような場合は、まず現在の記事制作の流れをお聞かせください。</p>
+    <p>AIに任せられる作業と、人が確認すべき作業を整理し、どのような仕組みを構築できるかご案内します。</p>
+    <div class="cta-row">
+      <a class="btn" href="contact.html">AIエージェントの構築を相談する</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">© 金城ゆうき</div>
+</footer>
+</body>
+</html>

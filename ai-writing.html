@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 下書き（未公開）。既存ページからのリンクは張っていない。公開するときは下の noindex を外す -->
+<!-- 本文の元原稿：_LP2本の本文_ChatGPT原稿_20261012.md の「LP①」 -->
+<meta name="robots" content="noindex">
+<title>AIを活用したSEO・LLMO記事制作代行｜金城ゆうき</title>
+<meta name="description" content="AIの効率と、人の判断を組み合わせた記事制作サービスです。企業のオウンドメディア向けに、記事の調査・構成作成・執筆・編集・事実確認まで対応します。">
+<meta name="theme-color" content="#16202c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%2316202c%22/%3E%3Ctext x=%2232%22 y=%2243%22 font-size=%2230%22 font-family=%22sans-serif%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%23ffffff%22%3EYK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* このページだけで使う最小限の追加（style.css は変更していない） */
+.lp-hero h1{font-size:clamp(28px,4.2vw,46px)}
+.lp-hero p.desc{margin-bottom:14px}
+.lp-hero .cta-row{margin-top:32px}
+.body-text{max-width:760px}
+.body-text p{margin:0 0 18px}
+.body-text p:last-child{margin-bottom:0}
+.before{margin:0 0 32px;max-width:760px}
+.after{margin:28px 0 0;max-width:760px}
+.after + .after{margin-top:14px}
+.sample-frame{margin-top:28px;border:2px dashed #b9c6c2;border-radius:var(--radius);background:#f2f5f4;color:#7c8c87;font-weight:700;text-align:center;padding:56px 20px}
+.x-link{margin:28px 0 0;font-weight:700}
+/* 見本（説明用サンプル） */
+.smp{margin-top:36px}
+.smp-title{font-size:18px;margin:0 0 4px}
+.smp-note{font-size:12px;color:var(--sub);margin:0 0 12px}
+.doc{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 2px 10px rgba(22,32,44,.06);padding:28px 32px;overflow-wrap:anywhere}
+.doc p{margin:0 0 14px}
+.doc p:last-child{margin-bottom:0}
+.doc .d-label{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin:0 0 2px}
+.doc .d-title{font-size:19px;font-weight:900;line-height:1.55;margin:0 0 16px}
+.doc .d-h2{font-size:18px;font-weight:900;line-height:1.5;margin:24px 0 10px;padding-left:10px;border-left:4px solid var(--accent)}
+.doc .d-h3{font-size:16px;font-weight:700;margin:18px 0 8px}
+.doc ul{margin:0 0 14px;padding-left:1.3em}
+.outline{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.outline li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.outline li.h3{padding-left:22px}
+.outline .lv{font-family:Inter,sans-serif;font-weight:800;font-size:12px;color:#fff;background:var(--ink);border-radius:5px;text-align:center;align-self:start;margin-top:4px;line-height:1.8}
+.outline li.h3 .lv{background:#8c99a6}
+.outline b{display:block;line-height:1.6}
+.outline span.memo{display:block;font-size:14px;color:var(--sub);line-height:1.7}
+.ref{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px}
+.ref-no{display:inline-block;min-width:1.5em;text-align:center;font-family:Inter,sans-serif;font-size:11px;font-weight:800;color:#fff;background:var(--accent);border-radius:999px;padding:0 5px;margin-left:3px;vertical-align:2px;line-height:1.7}
+.smp-table{margin-top:18px;font-size:14px}
+.smp-table th,.smp-table td{white-space:normal;font-weight:400;vertical-align:top;line-height:1.7;padding:10px 10px;overflow-wrap:anywhere}
+.smp-table thead th{background:var(--soft);font-weight:700;color:var(--ink);font-size:13px}
+.ba{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.ba .doc{padding:22px 24px}
+.ba .before-doc{background:#fafbfc;color:var(--sub)}
+.ba .after-doc{border-color:var(--accent)}
+.ba .chip{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:3px 12px;margin-bottom:12px;background:#eef1f4;color:var(--ink)}
+.ba .after-doc .chip{background:var(--accent-soft);color:var(--accent)}
+.fixes{margin:16px 0 0;padding:18px 22px 18px 22px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.fixes p{margin:0 0 6px;font-weight:700}
+.fixes ul{margin:0;padding-left:1.3em}
+@media (max-width:700px){
+  .doc{padding:20px 18px}
+  .ba{grid-template-columns:minmax(0,1fr)}
+  .outline li.h3{padding-left:10px}
+  .smp-table{font-size:13px}
+  .smp-table th,.smp-table td{padding:8px 6px}
+}
+.cta-row.gap{margin-top:28px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html">金城ゆうき<span>コンテンツディレクター・ライター</span></a>
+    <nav>
+      <a href="content-seo.html">コンテンツSEO</a>
+      <a href="ai-efficiency.html">AI業務効率化</a>
+      <a href="ai-agent.html">AIエージェント</a>
+      <a href="ai-writing.html" aria-current="page">記事制作代行</a>
+      <a class="m" href="works.html">制作実績</a>
+      <a href="index.html#price">料金</a>
+    </nav>
+    <a class="btn small" href="contact.html">相談する</a>
+  </div>
+</header>
+
+<main>
+<section class="lp-hero">
+  <div class="wrap">
+    <h1>AIを活用した<br><span class="ib">SEO・LLMO記事制作代行</span></h1>
+    <p class="desc">AIの効率と、人の判断を組み合わせた記事制作サービスです。</p>
+    <p class="desc">企業のオウンドメディア向けに、記事の調査・構成作成・執筆・編集・事実確認まで対応します。</p>
+    <p class="desc">記事制作には、作業ごとに役割を分けたAIエージェントを活用します。AIエージェントとは、決められた役割に沿って作業を進めるAIの仕組みです。</p>
+    <p class="desc">検索エンジンで上位表示を目指すSEOに加え、AIによる情報の発見・参照を意識したLLMOにも対応します。</p>
+    <p class="desc">構成の判断と文章の最終的な仕上げは、Webライター・コンテンツディレクターの金城ゆうきが担当します。</p>
+    <p class="desc">ご担当者様によるAIの操作は必要ありません。</p>
+    <div class="cta-row">
+      <a class="btn" href="contact.html">記事制作について相談する</a>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>こんなお悩みはありませんか？</h2>
+    <div class="problems">
+      <div class="problem"><p>オウンドメディアの記事を増やしたいが、社内の制作時間が足りない。</p></div>
+      <div class="problem"><p>AIで記事を作ってみたものの、内容の正確性や文章の品質に不安がある。</p></div>
+      <div class="problem"><p>外注先への細かな指示や原稿の確認に、想像以上の時間がかかっている。</p></div>
+    </div>
+    <p class="after">記事制作には、調査や執筆だけでなく、情報の確認や修正など多くの作業が必要です。</p>
+    <p class="after">こうした作業をAIエージェントと金城が分担し、記事制作を進めます。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>記事制作を任せることで、担当者の負担を減らします</h2>
+    <p class="before">ご担当者様に主に確認していただくのは、次の3つの場面です。</p>
+    <div class="pillars three">
+      <div class="pillar"><h3>キーワードの確認</h3><p>どのようなテーマで記事を制作するか確認します。</p></div>
+      <div class="pillar"><h3>構成の確認</h3><p>読者に伝える内容や、記事の流れを確認します。</p></div>
+      <div class="pillar"><h3>原稿の確認</h3><p>完成した記事を確認し、必要な修正をお伝えいただきます。</p></div>
+    </div>
+    <p class="after">そのほかの調査・執筆・事実確認・編集は、金城とAIエージェントが進めます。</p>
+    <p class="after">SEOでは検索する人の疑問に答えることを重視します。LLMOでは、AIが情報を探したり回答を作ったりする場面で、内容を理解・参照しやすくすることを意識します。</p>
+    <p class="after">検索順位やAIによる引用、アクセス数の増加を保証するものではありません。</p>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>サービス内容｜記事制作で対応すること</h2>
+    <p class="before">記事の企画段階から完成まで、以下の作業に対応します。</p>
+    <div class="menu">
+      <div class="menu-item"><h3>キーワードの検討</h3><p>検索する人の悩みや知りたい情報を調べ、記事のテーマを検討します。</p></div>
+      <div class="menu-item"><h3>構成の作成</h3><p>読者に必要な情報を整理し、見出しや記事の流れを設計します。</p></div>
+      <div class="menu-item"><h3>本文の執筆</h3><p>構成に沿って文章を作成し、読みやすく整えます。</p></div>
+      <div class="menu-item"><h3>事実確認</h3><p>数字や引用は元のページまで確認し、根拠となるURLを付けます。</p></div>
+      <div class="menu-item"><h3>編集・チェック</h3><p>情報の不足や分かりにくい表現を確認し、原稿を仕上げます。</p></div>
+      <div class="menu-item"><h3>修正対応</h3><p>ご担当者様からのご指摘を踏まえて修正します。</p></div>
+    </div>
+    <p class="after">修正回数や対応範囲は、ご相談のうえ決めます。</p>
+    <p class="after">取材・撮影・CMS（Webサイトの記事を管理・公開するシステム）への入稿についても、対応範囲はご相談ください。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>記事制作の進め方｜ご相談から納品まで</h2>
+    <ol class="process">
+      <li><span class="no">1</span><div><h3>ご相談・ヒアリング</h3><p>記事の目的や対象読者、現在の課題、希望する制作本数を伺います。</p></div></li>
+      <li><span class="no">2</span><div><h3>キーワードの検討・確認</h3><p>記事のテーマを検討し、ご担当者様に確認していただきます。</p></div></li>
+      <li><span class="no">3</span><div><h3>構成の作成・確認</h3><p>検索する人の疑問を調べ、記事の構成を作成します。内容をご確認いただいたうえで執筆に進みます。</p></div></li>
+      <li><span class="no">4</span><div><h3>執筆・事実確認・編集</h3><p>AIエージェントを活用して原稿を作成します。金城が情報を確認し、文章を仕上げます。</p></div></li>
+      <li><span class="no">5</span><div><h3>原稿確認・修正・納品</h3><p>完成した原稿をご確認いただきます。必要な修正を行い、納品します。</p></div></li>
+    </ol>
+    <p class="after">各工程の進め方や納期は、ご相談のうえ決めます。</p>
+    <!-- 原稿にない追加（構成案で決まっている相互案内の1行） -->
+    <p class="x-link"><a href="ai-agent.html">自社で記事を制作する仕組みを作りたい方へ →</a></p>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>制作体制｜AIに任せること、人が判断すること</h2>
+    <p class="before">記事制作では、役割の異なるAIエージェントを組み合わせています。</p>
+    <div class="reasons">
+      <div class="reason"><h3>調査するAI</h3><p>記事に必要な情報を集め、整理します。</p></div>
+      <div class="reason"><h3>事実を確かめるAI</h3><p>数字や説明の根拠を確認する作業を支援します。</p></div>
+      <div class="reason"><h3>厳しくチェックするAI</h3><p>情報の不足や文章の分かりにくさを指摘します。</p></div>
+      <div class="reason"><h3>初めて読む人の立場で確認するAI</h3><p>専門知識がない読者にも伝わるかを確認します。</p></div>
+    </div>
+    <p class="after">ただし、AIの出力をそのまま採用するわけではありません。</p>
+    <p class="after">記事に何を書くべきか、どの情報を使うか、どのような文章に仕上げるかは金城が判断します。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>納品物の見本｜完成原稿と確認資料</h2>
+    <p class="before">実際にどのような原稿や資料を受け取れるのか、見本を紹介します。</p>
+    <div class="effort-grid">
+      <div class="effort"><h3>記事原稿の見本</h3><p>見出しや本文を含む、完成原稿の形式を紹介します。</p></div>
+      <div class="effort"><h3>構成案の見本</h3><p>読者の疑問をどのように整理し、記事の流れを作るかを示します。</p></div>
+      <div class="effort"><h3>根拠URLの提示例</h3><p>数字や引用の確認に使用した情報源を、どのように記載するかを紹介します。</p></div>
+      <div class="effort"><h3>編集前後の比較</h3><p>AIの下書きを金城がどのように確認・修正するかを示します。</p></div>
+    </div>
+    <!-- サンプル：後で実物に差し替え -->
+    <div class="smp">
+      <h3 class="smp-title">構成案の見本</h3>
+      <p class="smp-note">※説明用のサンプルです。実際の案件の原稿・画面ではありません</p>
+      <div class="doc">
+        <p class="d-label">記事タイトル案</p>
+        <p class="d-title">勤怠管理システムの選び方｜中小企業の総務担当者が比較の前に決めておくこと</p>
+        <p class="d-label">想定読者</p>
+        <p>中小企業の総務担当者。紙やExcelで勤怠を管理していて、システムの導入を検討し始めた段階。</p>
+        <p class="d-label">この記事で読者ができるようになること</p>
+        <p>自社に必要な機能を整理し、候補を絞るための比較表を作れる。</p>
+        <p class="d-label">見出しと、ここで伝えること</p>
+        <ul class="outline">
+          <li><span class="lv">H2</span><div><b>勤怠管理システムを選ぶ前に決めておくこと</b><span class="memo">比較の前に、自社の条件を書き出す必要があると伝える</span></div></li>
+          <li class="h3"><span class="lv">H3</span><div><b>いまの勤怠管理で困っていること</b><span class="memo">困りごとを書き出す観点を示す</span></div></li>
+          <li class="h3"><span class="lv">H3</span><div><b>対象になる従業員と働き方</b><span class="memo">雇用形態や勤務の形によって、必要な機能が変わると伝える</span></div></li>
+          <li><span class="lv">H2</span><div><b>勤怠管理システムを比べるときのポイント</b><span class="memo">比較表の項目にする観点を示す</span></div></li>
+          <li class="h3"><span class="lv">H3</span><div><b>打刻の方法</b><span class="memo">働く場所に合う打刻の方法を選ぶ考え方を示す</span></div></li>
+          <li class="h3"><span class="lv">H3</span><div><b>給与計算との連携</b><span class="memo">いま使っている給与計算の方法とつながるかを確かめる点を示す</span></div></li>
+          <li class="h3"><span class="lv">H3</span><div><b>サポートの体制</b><span class="memo">導入時と導入後に、何を相談できるかを確かめる点を示す</span></div></li>
+          <li><span class="lv">H2</span><div><b>料金の見方</b><span class="memo">料金の決まり方の違いと、見積もりで確かめる点を伝える（金額は各製品の公式ページを確認して記載）</span></div></li>
+          <li><span class="lv">H2</span><div><b>導入までの進め方</b><span class="memo">候補の絞り込みから試用、社内への周知までの流れを示す</span></div></li>
+          <li><span class="lv">H2</span><div><b>よくある質問</b><span class="memo">検索する人がよく調べている疑問に答える</span></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- サンプル：後で実物に差し替え -->
+    <div class="smp">
+      <h3 class="smp-title">記事原稿の見本</h3>
+      <p class="smp-note">※説明用のサンプルです。実際の案件の原稿・画面ではありません</p>
+      <div class="doc">
+        <p class="d-title">勤怠管理システムの選び方｜中小企業の総務担当者が比較の前に決めておくこと</p>
+        <p>「勤怠管理システムを導入したいが、種類が多くて選べない」。そのような総務担当者に向けて、比較を始める前に決めておくことと、比べるときのポイントを整理しました。読み終えると、自社に合う候補を絞るための比較表を作れます。</p>
+        <p class="d-h2">勤怠管理システムを選ぶ前に決めておくこと</p>
+        <p>勤怠管理システムを比べる前に、自社の条件を書き出しておくと、候補を絞りやすくなります。機能の多さで選ぶと、使わない機能に費用を払うことになりかねません。決めておくことは次の2つです。</p>
+        <ul>
+          <li>いまの勤怠管理で困っていること</li>
+          <li>対象になる従業員と働き方</li>
+        </ul>
+        <p class="d-h3">いまの勤怠管理で困っていること</p>
+        <p>最初に、現在の方法で手間がかかっている作業を書き出します。たとえば、月末の集計に時間がかかる、打刻の漏れを確認する連絡が多い、残業時間を月の途中で把握できない、といった内容です。</p>
+        <p>困りごとがはっきりすると、必要な機能が決まります。集計に時間がかかっているなら、自動で集計する機能を優先します。打刻の漏れが多いなら、漏れを本人に知らせる機能があるかを確かめます。</p>
+      </div>
+    </div>
+
+    <!-- サンプル：後で実物に差し替え -->
+    <div class="smp">
+      <h3 class="smp-title">根拠URLの提示例</h3>
+      <p class="smp-note">※説明用のサンプルです。実際の案件の原稿・画面ではありません。出典の名称・数値・URLは、記載する位置を示すための仮の表記です</p>
+      <div class="doc">
+        <p><span class="ref">中小企業で勤怠管理システムを導入している割合は（数値は出典を確認して記載）です</span><span class="ref-no">1</span>。<span class="ref">労働時間の記録については、企業に求められる対応が定められています</span><span class="ref-no">2</span>。<span class="ref">料金は、製品ごとの公式サイトで確認した金額を記載します</span><span class="ref-no">3</span>。</p>
+        <div class="table-wrap">
+          <table class="smp-table">
+            <thead>
+              <tr><th>番号</th><th>確認した内容</th><th>出典の名称</th><th>URL</th><th>確認日</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>勤怠管理システムを導入している企業の割合</td><td>〇〇省「△△調査」（調査名を記載）</td><td>https://example.com/（出典ページのURLを記載）</td><td>（確認した日付を記載）</td></tr>
+              <tr><td>2</td><td>労働時間の記録について、企業に求められている対応</td><td>〇〇省「△△に関するガイドライン」（資料名を記載）</td><td>https://example.com/（出典ページのURLを記載）</td><td>（確認した日付を記載）</td></tr>
+              <tr><td>3</td><td>製品の料金</td><td>各製品の公式サイト「料金ページ」</td><td>https://example.com/（料金ページのURLを記載）</td><td>（確認した日付を記載）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- サンプル：後で実物に差し替え -->
+    <div class="smp">
+      <h3 class="smp-title">編集前後の比較</h3>
+      <p class="smp-note">※説明用のサンプルです。実際の案件の原稿・画面ではありません</p>
+      <div class="ba">
+        <div class="doc before-doc">
+          <span class="chip">AIの下書き</span>
+          <p>近年、働き方改革の推進により、勤怠管理の重要性はますます高まっており、多くの企業が勤怠管理システムの導入を進めています。勤怠管理システムにはさまざまな種類があり、それぞれに特徴があるため、自社に合ったものを選ぶことが重要であり、導入すれば業務効率は必ず大幅に改善されます。</p>
+        </div>
+        <div class="doc after-doc">
+          <span class="chip">金城が仕上げた原稿</span>
+          <p>勤怠管理システムは、自社の困りごとに合う機能があるかどうかで選びます。機能の多さで選ぶと、使わない機能に費用を払うことになりかねません。まずは、いまの勤怠管理で手間がかかっている作業を書き出してください。</p>
+        </div>
+      </div>
+      <div class="fixes">
+        <p>直した点</p>
+        <ul>
+          <li>読者が最初に知りたい答え（選ぶ基準）を先頭に移した</li>
+          <li>根拠のない断定（「多くの企業が」「必ず大幅に改善」）を外した</li>
+          <li>一文を短くし、読者が次にすることを書いた</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>料金・納期のご案内</h2>
+    <div class="body-text">
+      <p><b>料金：要相談</b></p>
+      <p>記事の内容・制作本数・対応範囲を伺い、お見積もりします。</p>
+      <p>納期や修正回数についても、ご相談のうえ決めます。</p>
+      <p>まずは制作したい記事の内容をお聞かせください。</p>
+    </div>
+    <div class="cta-row gap">
+      <a class="btn" href="contact.html">記事制作について相談する</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>記事制作・ディレクションの実績</h2>
+    <p class="before">これまでSEO記事の執筆やリライト、制作チームのディレクションに携わってきました。</p>
+    <div class="reasons">
+      <div class="reason"><h3>累計700記事以上を執筆</h3><p>さまざまなテーマの記事制作を経験しています。</p></div>
+      <div class="reason"><h3>検索上位に表示された記事500記事以上</h3><p>検索する人の疑問を踏まえた記事制作に取り組んできました。</p></div>
+      <div class="reason"><h3>リライトでPV10倍</h3><p>記事に実際の操作画面を追加したリライトで、PV（ページ閲覧数）が10倍になった実績があります。</p></div>
+      <div class="reason"><h3>10名規模のライターチームをディレクション</h3><p>月20本の記事制作を管理してきました。</p></div>
+    </div>
+    <p class="note">※上記はこれまでの記事制作・ディレクションの実績です。本サービスによる成果や、今後の検索順位・PVを保証するものではありません。</p>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>担当者紹介｜金城ゆうきについて</h2>
+    <div class="body-text">
+      <p>沖縄在住のWebライター・コンテンツディレクターです。</p>
+      <p>これまで記事の構成作成・執筆・編集に加え、ライターチームのディレクションを担当してきました。</p>
+      <p>現在は、記事制作に使うAIエージェントを自分で構築し、日々の業務で活用しています。</p>
+      <p>AIに作業を任せながらも、読者に必要な情報を考え、文章の品質を判断することを大切にしています。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 「Q.」は style.css が質問の前に自動で表示する -->
+<section>
+  <div class="wrap">
+    <h2>よくある質問</h2>
+    <details class="faq">
+      <summary>AIの操作や専門知識は必要ですか？</summary>
+      <p>必要ありません。AIエージェントの操作は金城が行います。ご担当者様には、主にキーワード・構成・原稿を確認していただきます。</p>
+    </details>
+    <details class="faq">
+      <summary>AIが作った文章をそのまま納品するのですか？</summary>
+      <p>いいえ。AIの出力を金城が確認し、必要な情報の追加や文章の修正を行います。数字や引用は元のページで確認し、根拠URLを付けて納品します。</p>
+    </details>
+    <details class="faq">
+      <summary>修正や既存記事のリライトも依頼できますか？</summary>
+      <p>ご相談いただけます。記事の内容や希望する修正範囲を伺い、対応内容を決めます。修正回数や納期もご相談のうえ決めます。</p>
+    </details>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="wrap">
+    <h2>記事制作について、まずはご相談ください</h2>
+    <p style="margin-bottom:18px">記事制作にかかる時間を減らしたい。AIを活用しながらも、内容をきちんと確認した記事を作りたい。</p>
+    <p style="margin-bottom:18px">そのような企業のオウンドメディア制作をお手伝いします。</p>
+    <p>記事のテーマや制作本数が決まっていない段階でも、現在の課題を伺い、対応できる範囲をご案内します。</p>
+    <div class="cta-row">
+      <a class="btn" href="contact.html">記事制作について相談する</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">© 金城ゆうき</div>
+</footer>
+</body>
+</html>
