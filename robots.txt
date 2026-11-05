@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yukinjou0127-spec.github.io/sitemap.xml
