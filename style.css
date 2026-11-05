@@ -344,3 +344,24 @@ section.soft .tool-chips li{background:#fff}
   .article-list .t{min-width:0}
   .kind{justify-self:start}
 }
+
+/* price detail (2026-11-05) */
+.price-sub{font-size:17px;margin:32px 0 10px}
+.price-incl{margin:0;padding-left:1.3em;line-height:1.9}
+.price-len td,.price-bulk td{white-space:nowrap}
+.price-len tr:first-child th,.price-bulk tr:first-child th{font-size:13px;background:#f6f8f8}
+.price-bulk td:last-child{white-space:normal}
+@media (max-width:600px){.price-len th,.price-len td,.price-bulk th,.price-bulk td{padding:10px 8px;font-size:13px}}
+
+.price-lead{margin:0 0 18px;max-width:760px;line-height:1.9}
+
+/* 2026-11-05 スマホでもメニューを全部出す（2段目を横スクロール） */
+@media (max-width:860px){
+  header .wrap{flex-wrap:wrap;height:auto;padding-top:10px;row-gap:4px}
+  nav a:not(.m){display:inline}
+  nav{order:3;width:100%;margin-left:0;gap:18px;font-size:13px;overflow-x:auto;
+    padding:6px 0 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  nav::-webkit-scrollbar{display:none}
+  [id]{scroll-margin-top:110px}
+}
